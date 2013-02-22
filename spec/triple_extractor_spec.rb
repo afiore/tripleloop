@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Tripleloop::TripleExtractor do
-  class SampleExtractor < Tripleloop::TripleExtractor
+describe Tripleloop::Extractor do
+  class SampleExtractor < Tripleloop::Extractor
     map(:path, :to, :key) { |fragment|
       [fragment, :predicate, :object]
     }

@@ -5,5 +5,5 @@ $LOAD_PATH << "#{basedir}/lib/tripleloop/support"
 module Tripleloop
 end
 
-require 'triple_extractor'
+require 'extractor'
 require 'util'

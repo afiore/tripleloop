@@ -1,4 +1,4 @@
-class Tripleloop::TripleExtractor
+class Tripleloop::Extractor
   def initialize(context)
     @context = context
   end
