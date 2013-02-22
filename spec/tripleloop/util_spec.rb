@@ -3,22 +3,22 @@ require 'spec_helper'
 describe Tripleloop::Util do
   subject { Tripleloop::Util }
 
-  describe ".withNestedFetch" do
+  describe ".with_nested_fetch" do
     context "when supplied argument is an array" do
       it "extends it with the NestedFetch module" do
-        subject.withNestedFetch({}).should respond_to(:get_in)
+        subject.with_nested_fetch({}).should respond_to(:get_in)
       end
     end
 
     context "when supplied argument is an hash" do
       it "extends it with the NestedFetch module" do
-        subject.withNestedFetch([]).should respond_to(:get_in)
+        subject.with_nested_fetch([]).should respond_to(:get_in)
       end
     end
 
     context "when supplied argument is not enumerable" do
       it "returns the supplied argument" do
-        subject.withNestedFetch(Object.new).should_not respond_to(:get_in)
+        subject.with_nested_fetch(Object.new).should_not respond_to(:get_in)
       end
     end
   end
@@ -26,7 +26,7 @@ describe Tripleloop::Util do
   describe Tripleloop::Util::NestedFetch do
     describe "#get_in" do
       context "when object is a hash" do
-        subject { Tripleloop::Util.withNestedFetch({
+        subject { Tripleloop::Util.with_nested_fetch({
           :path => {
             :to => {
               :value => :ok
@@ -44,7 +44,7 @@ describe Tripleloop::Util do
       end
 
       context "when object is an array" do
-        subject { Tripleloop::Util.withNestedFetch([
+        subject { Tripleloop::Util.with_nested_fetch([
           [0,1,2,[
             [:ok]
           ]]
@@ -57,6 +57,17 @@ describe Tripleloop::Util do
         it "returns nothing when no corresponding value can be found" do
           subject.get_in(0,3,1).should be_nil
         end
+      end
+    end
+  end
+
+  describe Tripleloop::Util::String do
+
+    subject { Tripleloop::Util::String }
+
+    describe ".classify" do
+      it "turns 'snake case' into 'camel case'" do
+        subject.classify("foo_bar_baz").should eq("FooBarBaz")
       end
     end
   end

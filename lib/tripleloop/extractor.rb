@@ -3,6 +3,13 @@ class Tripleloop::Extractor
     @context = context
   end
 
+  def name
+    class_name = self.class.name.split('::').last
+    Tripleloop::Util::String.snake_case(class_name).
+      gsub(/_extractor$/,'')
+  end
+
+
   def self.map(*fragment, &block)
     @fragment_map ||= {}
     @fragment_map.merge!(fragment => block)
@@ -14,8 +21,7 @@ class Tripleloop::Extractor
 
   def extract
     self.class.fragment_map.reduce([]) do |memo, (path, block)|
-      fragment = Tripleloop::Util.withNestedFetch(context).get_in(*path)
-
+      fragment = Tripleloop::Util.with_nested_fetch(context).get_in(*path)
       value = block.call(fragment)
 
       if value.all? { |object| object.is_a?(Array) }

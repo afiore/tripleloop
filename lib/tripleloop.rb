@@ -6,4 +6,5 @@ module Tripleloop
 end
 
 require 'extractor'
+require 'document_processor'
 require 'util'
