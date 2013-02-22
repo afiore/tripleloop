@@ -35,11 +35,15 @@ module Tripleloop
       }
     end
 
-    def extractor_class(extractor, scope=Kernel)
+    def extractor_class(extractor)
       class_name = Tripleloop::Util::String.classify("#{extractor}_extractor")
       scope.const_get(class_name)
     rescue NameError
       raise ArgumentError, "Cannot find an extractor with class name '#{class_name}'"
+    end
+
+    def scope
+      Tripleloop::Util.module(self)
     end
 
     def get_context(context)

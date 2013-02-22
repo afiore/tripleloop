@@ -23,6 +23,28 @@ describe Tripleloop::Util do
     end
   end
 
+  describe ".module" do
+    module Test
+      module Foo
+        class Bar; end
+      end
+      class Baz; end
+    end
+
+    context "when the supplied object's class is within a nested namespace" do
+      it "returns the parent module as a constant" do
+        subject.module(Test::Foo::Bar.new).should eq(Test::Foo)
+        subject.module(Test::Baz.new).should eq(Test)
+      end
+    end
+
+    context "when the supplied object class is not noested within a namespace" do
+      it "returns the Kernel constant" do
+        subject.module(Object.new).should eq(Kernel)
+      end
+    end
+  end
+
   describe Tripleloop::Util::NestedFetch do
     describe "#get_in" do
       context "when object is a hash" do
@@ -62,7 +84,6 @@ describe Tripleloop::Util do
   end
 
   describe Tripleloop::Util::String do
-
     subject { Tripleloop::Util::String }
 
     describe ".classify" do

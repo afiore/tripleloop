@@ -31,5 +31,16 @@ module Tripleloop
     def with_nested_fetch(object)
       object.is_a?(Enumerable) ? object.extend(NestedFetch) : object
     end
+
+    def module(object)
+      constant(object.class.name.split('::')[0..-2])
+    end
+
+    def constant(names, context=Kernel)
+      return context if names.empty?
+
+      const_name = names.shift
+      constant(names, context.const_get(const_name))
+    end
   end
 end
