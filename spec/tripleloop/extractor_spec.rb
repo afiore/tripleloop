@@ -43,4 +43,10 @@ describe Tripleloop::Extractor do
       end
     end
   end
+
+  describe "#name" do
+    it "returns the extractor name (in snake case)" do
+      extractor.name.should eq("sample_extractor")
+    end
+  end
 end
