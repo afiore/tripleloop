@@ -39,7 +39,6 @@ class Tripleloop::Extractor
   end
 
 private
-
   def nested_triples?(value)
     value.all? { |object| object.is_a?(Array) }
   end

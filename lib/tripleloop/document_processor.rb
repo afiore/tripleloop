@@ -39,7 +39,7 @@ module Tripleloop
       class_name = Tripleloop::Util::String.classify("#{extractor}_extractor")
       scope.const_get(class_name)
     rescue NameError
-      raise ExtractorNotFoundError, "Cannot find an extractor with class name '#{class_name}'"
+      raise ExtractorNotFoundError, "Cannot find an extractor with class name '#{scope}::#{class_name}'"
     end
 
     def scope
