@@ -39,7 +39,7 @@ describe Tripleloop::DocumentProcessor do
       it "raises an ExtractorNotFound error" do
         expect {
           Example::ProcessorWithMissingExtractor.new(document).extracted_statements
-        }.to raise_error(ArgumentError)
+        }.to raise_error(Example::SampleProcessor::ExtractorNotFoundError)
       end
     end
 

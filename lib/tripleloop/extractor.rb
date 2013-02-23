@@ -22,16 +22,37 @@ class Tripleloop::Extractor
   def extract
     self.class.fragment_map.reduce([]) do |memo, (path, block)|
       fragment = Tripleloop::Util.with_nested_fetch(context).get_in(*path)
-      value = block.call(fragment)
+      returned = block.call(fragment)
 
-      if value.all? { |object| object.is_a?(Array) }
-        memo.concat(value)
+      if nested_triples?(returned)
+
+        returned.each do |val|
+          ensure_triple_or_quad(val)
+        end
+        memo.concat(returned)
+
       else
-        memo << value
+        ensure_triple_or_quad(returned)
+        memo << returned
       end
     end
   end
 
 private
+
+  def nested_triples?(value)
+    value.all? { |object| object.is_a?(Array) }
+  end
+
+  def ensure_triple_or_quad(value)
+    message = "Cannot build a triple or a quad with #{value}."
+    raise BrokenMappingError, message unless is_triple_or_quad?(value)
+  end
+
+  def is_triple_or_quad?(value)
+    [3,4].include? value.length
+  end
+
+  class BrokenMappingError < StandardError; end
   attr_reader :context
 end
