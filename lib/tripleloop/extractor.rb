@@ -5,10 +5,8 @@ class Tripleloop::Extractor
 
   def name
     class_name = self.class.name.split('::').last
-    Tripleloop::Util::String.snake_case(class_name).
-      gsub(/_extractor$/,'')
+    Tripleloop::Util::String.snake_case(class_name).gsub(/_extractor$/,'')
   end
-
 
   def self.map(*fragment, &block)
     @fragment_map ||= {}
@@ -25,12 +23,10 @@ class Tripleloop::Extractor
       returned = block.call(fragment)
 
       if nested_triples?(returned)
-
-        returned.each do |val|
-          ensure_triple_or_quad(val)
+        returned.each do |value|
+          ensure_triple_or_quad(value)
         end
         memo.concat(returned)
-
       else
         ensure_triple_or_quad(returned)
         memo << returned

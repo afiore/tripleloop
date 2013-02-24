@@ -22,6 +22,16 @@ module Tripleloop
       }]
     end
 
+    def self.batch_process(documents)
+      documents.map { |doc|
+        self.new(doc).extracted_statements
+      }.reduce(Hash.new([])) { |accu, statements|
+        accu.merge(statements) { |k, olds, news|
+          olds.concat(news)
+        }
+      }
+    end
+
   private
     attr_reader :document
 

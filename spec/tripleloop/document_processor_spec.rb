@@ -11,7 +11,9 @@ describe Tripleloop::DocumentProcessor do
     end
 
     class BazExtractor < Tripleloop::Extractor
-      map(:baz) { |baz| [:subject, baz, :object ] }
+      map(:baz) { |baz|
+        baz.map { |v| [:subject, v, :object ] }
+      }
     end
 
     class SampleProcessor < Tripleloop::DocumentProcessor
@@ -29,7 +31,7 @@ describe Tripleloop::DocumentProcessor do
       :foo => "foo-value",
       :bar => "bar-value",
       :nested => {
-        :baz => "baz-value"
+        :baz => ["baz a", "baz b"]
       }
     }
   }}
@@ -50,7 +52,8 @@ describe Tripleloop::DocumentProcessor do
         subject.extracted_statements.should eq({
           :foo => [[:subject, "foo-value", :object]],
           :bar => [[:subject, "bar-value", :object]],
-          :baz => [[:subject, "baz-value", :object]]
+          :baz => [[:subject, "baz a", :object],
+                   [:subject, "baz b", :object]]
         })
       end
 
@@ -67,6 +70,45 @@ describe Tripleloop::DocumentProcessor do
           :extractor_2 => :extracted
         })
       end
+    end
+  end
+
+  describe ".batch_process" do
+    let(:documents) {
+      3.times.map { |n| {
+        :attrs => {
+          :foo => "foo-value #{n}",
+          :bar => "bar-value #{n}",
+          :nested => {
+            :baz => ["baz a #{n}", "baz b #{n}"]
+          }
+        }}
+      }
+    }
+
+    subject { Example::SampleProcessor.batch_process(documents) }
+
+    it "returns a hash of combined statements, grouped by extractor name" do
+      subject.should eq({
+        :foo => [
+          [:subject, "foo-value 0", :object],
+          [:subject, "foo-value 1", :object],
+          [:subject, "foo-value 2", :object]
+        ],
+        :bar => [
+          [:subject, "bar-value 0", :object],
+          [:subject, "bar-value 1", :object],
+          [:subject, "bar-value 2", :object]
+        ]
+        :baz => [
+          [:subject, "baz a 0", :object],
+          [:subject, "baz b 0", :object],
+          [:subject, "baz a 1", :object],
+          [:subject, "baz b 1", :object],
+          [:subject, "baz a 2", :object],
+          [:subject, "baz b 2", :object],
+        ]
+      })
     end
   end
 end
