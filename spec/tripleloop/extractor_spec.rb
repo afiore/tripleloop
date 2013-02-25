@@ -59,6 +59,26 @@ describe Tripleloop::Extractor do
     end
   end
 
+  describe ".define" do
+    let(:document) {{
+      :doi => "10.1038/481241e",
+      :title => "Sample document"
+    }}
+
+    class ExtractorWithBinding < Tripleloop::Extractor
+      bind(:doi) { |doc| doc[:doi] }
+
+      map(:title) { |title|
+        [doi, RDF::DC11.title, title]
+      }
+    end
+
+    it "defines a binding which can be used from within a map block" do
+      extractor = ExtractorWithBinding.new(document)
+      extractor.extract.should eq([["10.1038/481241e", RDF::DC11.title, "Sample document"]])
+    end
+  end
+
   describe "#name" do
     it "returns the extractor name (in snake case)" do
       extractor.name.should eq("sample")

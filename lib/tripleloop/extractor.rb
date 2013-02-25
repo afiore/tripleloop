@@ -1,6 +1,7 @@
 class Tripleloop::Extractor
   def initialize(context)
     @context = context
+    bind_variables!
   end
 
   def name
@@ -13,6 +14,11 @@ class Tripleloop::Extractor
     @fragment_map.merge!(fragment => block)
   end
 
+  def self.bind(name, &block)
+    @extractor_bindings ||= {}
+    @extractor_bindings[name.to_sym] = block
+  end
+
   def self.fragment_map
     @fragment_map || {}
   end
@@ -20,7 +26,7 @@ class Tripleloop::Extractor
   def extract
     self.class.fragment_map.reduce([]) do |memo, (path, block)|
       fragment = Tripleloop::Util.with_nested_fetch(context).get_in(*path)
-      returned = block.call(fragment)
+      returned = instance_exec(fragment, &block)
 
       if nested_triples?(returned)
         returned.each do |value|
@@ -46,6 +52,16 @@ private
 
   def is_triple_or_quad?(value)
     [3,4].include? value.length
+  end
+
+  def bind_variables!
+    klass = self.class
+    extractor_bindings = klass.instance_variable_get(:@extractor_bindings) || {}
+    extractor_bindings.each do |method, block|
+      klass.send(:define_method, method) do
+        block.call(context)
+      end
+    end
   end
 
   class BrokenMappingError < StandardError; end
