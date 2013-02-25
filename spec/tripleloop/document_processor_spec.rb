@@ -99,7 +99,7 @@ describe Tripleloop::DocumentProcessor do
           [:subject, "bar-value 0", :object],
           [:subject, "bar-value 1", :object],
           [:subject, "bar-value 2", :object]
-        ]
+        ],
         :baz => [
           [:subject, "baz a 0", :object],
           [:subject, "baz b 0", :object],

@@ -9,4 +9,7 @@ require 'document_processor'
 require 'rdf_writer'
 require 'util'
 
+require 'pathname'
+require 'fileutils'
 require 'rdf'
+require 'rdf/ntriples'
