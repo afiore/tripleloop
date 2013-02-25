@@ -1,0 +1,41 @@
+{
+  "doi": "10.1038/481241e",
+  "source": "npg",
+  "authors": [
+    {"first": "Atsushi", "last": "Takahashi", "full": "Atsushi Takahashi", "affiliations": ["Broad Institute, Cambridge, Massachusets, USA", "MIT Computer Science and Artificial Intelligence Laboratory, Cambridge<, Massachusetts, USA"]},
+    {"first": "Hisashi", "last": "Tokita", "full": "Hisashi Tokita","affiliations": ["Broad Institute, Cambridge, Massachusets, USA"]},
+    {"first": "Kenzo", "last": "Takahashi", "full": "Kenzo Takahashi"}
+  ],
+  "article_type": {"code": "rhighlts", "name": "Research Highlights"},
+  "published_date": "2012-01-18",
+  "title": "Developmental biology: Watching cells die in real time",
+  "subjects": [
+    {"code": 80}, // old style XML
+    {"code": 245, "id": 245, "path": "/245", "priority": 0, "type": "npg.subjects", "version": "1.0"} // new style XML
+  ],
+  "techniques": [
+    {"code": 65, "path": "/65", "type": "npg.technique", "version": "1.0"},
+    {"code": 90, "path": "/65/90","type": "npg.technique", "version": "1.0"}
+  ],
+  "mesh_terms": [
+    {"code": "D008967", "term": "Molecular Biology"},
+    {"code": "D002455", "term": "Cell Division"}
+  ],
+  "volume": 481,
+  "issue": 7381,
+  "start_page": 241,
+  "end_page": 241,
+  "product": {"pcode": "nature", "name": "Nature"},
+  "references": [
+    {
+      "fulltext": "Dutta, D., Herath, S. & Musiake, K. A mathematical model for flood loss estimation. J. Hydrol. 277, 24–49 (2003).",
+      "title": "A mathematical model for flood loss estimation",
+      "year": 1996,
+      "authors": [
+        {"first": "D.", "last": "Dutta", "full": "Dutta, D."},
+        {"first": "S.", "last": "Herath", "full": "Herath, S."}
+      ],
+      "pub": "J. Hydrol"
+    }
+  ]
+}

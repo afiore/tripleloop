@@ -92,4 +92,18 @@ describe Tripleloop::Util do
       end
     end
   end
+
+  describe Tripleloop::Util::Hash do
+    subject { Tripleloop::Util::Hash }
+
+    describe ".symbolize_keys" do
+      it "returns a copy of the supplied hash, with symbol instead than string keys" do
+        subject.symbolize_keys({"foo" => 1, "bar" => 2}).should eq({
+          :foo => 1,
+          :bar => 2
+        })
+
+      end
+    end
+  end
 end

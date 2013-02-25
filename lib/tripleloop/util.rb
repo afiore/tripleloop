@@ -27,6 +27,16 @@ module Tripleloop
       end
     end
 
+    module Hash
+      module_function
+      def symbolize_keys(hash)
+        hash.reduce({}){ |accu, (k,v)|
+          accu.merge(k.to_sym => v) 
+        }
+      end
+    end
+
+
   module_function
     def with_nested_fetch(object)
       object.is_a?(Enumerable) ? object.extend(NestedFetch) : object

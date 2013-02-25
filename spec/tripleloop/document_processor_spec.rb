@@ -37,6 +37,8 @@ describe Tripleloop::DocumentProcessor do
   }}
 
   describe "#extracted_statements" do
+    it "converts all keys in document hash into symbols"
+
     context "when some of the registered extractors cannot be found" do
       it "raises an ExtractorNotFound error" do
         expect {
