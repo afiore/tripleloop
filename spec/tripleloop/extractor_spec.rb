@@ -11,6 +11,8 @@ describe Tripleloop::Extractor do
         [:subject, item, :object]
       }
     }
+
+    map(:path, :to, :missing, :key) { nil }
   end
 
   class BrokenExtractor < Tripleloop::Extractor
@@ -50,11 +52,17 @@ describe Tripleloop::Extractor do
       end
     end
 
-    context "when a block does not return a valid constructor argument for RDF::Statement" do
+    context "when a map block does not return a valid constructor argument for RDF::Statement" do
       it "raises an ArgumentError" do
         expect {
           BrokenExtractor.new(document).extract
         }.to raise_error(Tripleloop::Extractor::BrokenMappingError)
+      end
+    end
+
+    context "when a map block returns a nil value" do
+      it "ignores the nil value" do
+        triples.should_not include(nil)
       end
     end
   end
