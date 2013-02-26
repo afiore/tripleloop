@@ -2,7 +2,7 @@ require 'addressable/template'
 
 class AuthorsExtractor < Tripleloop::Extractor
   bind(:doi)      { |doc| RDF::DOI.send(doc['doi']) }
-  bind(:graph)    { |_|   RDF::NPGG.authors }
+  bind(:graph)    { RDF::NPGG.authors }
 
   map('authors') { |authors_data|
     article_authors(authors_data) + affiliations(authors_data)
@@ -24,7 +24,7 @@ private
   end
 
   def author_uri(full_name)
-    uri = "http://ns.nature.com/institutions/{name}"
+    uri = "http://ns.nature.com/authors/{name}"
     RDF::URI.new template_uri(uri).expand(:name => full_name)
   end
 
