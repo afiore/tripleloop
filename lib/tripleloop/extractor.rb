@@ -26,7 +26,7 @@ class Tripleloop::Extractor
   def extract
     self.class.fragment_map.reduce([]) do |memo, (path, block)|
       fragment = Tripleloop::Util.with_nested_fetch(context).get_in(*path)
-      returned = instance_exec(fragment, &block).compact
+      returned = Array(instance_exec(fragment, &block)).compact
 
       if nested_triples?(returned)
         returned.each do |value|
