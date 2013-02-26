@@ -10,13 +10,13 @@ class AuthorsExtractor < Tripleloop::Extractor
 
 private
   def article_authors(authors)
-    authors.map {|a|
+    Array(authors).map {|a|
       [doi, RDF::NPG.hasAuthor, author_uri(a['full']), graph]
     }
   end
 
   def affiliations(authors)
-    authors.reduce([]) { |accu, author|
+    Array(authors).reduce([]) { |accu, author|
       accu + author.fetch('affiliations', []).map { |affiliation|
         [author_uri(author['full']), RDF::NPG.affiliatedTo, institution_uri(affiliation), graph]
       }
@@ -24,17 +24,14 @@ private
   end
 
   def author_uri(full_name)
-    uri = "http://ns.nature.com/authors/{name}"
-    RDF::URI.new template_uri(uri).expand(:name => full_name)
+    RDF::URI.new "http://ns.nature.com/authors/#{to_slug(full_name)}"
   end
 
   def institution_uri(institution)
-    uri = "http://ns.nature.com/institutions/{name}"
-    RDF::URI.new template_uri(uri).expand(:name => institution)
+    RDF::URI.new "http://ns.nature.com/institutions/#{to_slug(institution)}"
   end
 
-  def template_uri(uri)
-    @uri_templates ||= {}
-    @uri_templates[uri] ||= Addressable::Template.new(uri)
+  def to_slug(name)
+    name.to_slug.normalize
   end
 end

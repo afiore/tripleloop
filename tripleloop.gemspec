@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rspec', "~> 2.12.0")
   s.add_development_dependency('fakefs', "~> 0.4.0")
   s.add_development_dependency('pry')
+  s.add_development_dependency('babosa')
 
   # = MANIFEST =
   s.files = %w[
