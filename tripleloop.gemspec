@@ -29,7 +29,6 @@ Gem::Specification.new do |s|
 
   # = MANIFEST =
   s.files = %w[
-    History.txt
     README.md
   ] + (`git ls-files examples lib spec`).split("\n")
   # = MANIFEST =
