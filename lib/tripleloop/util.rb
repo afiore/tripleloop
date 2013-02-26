@@ -3,6 +3,7 @@ module Tripleloop
     module NestedFetch
       def get_in(*keys)
         return self if keys.empty?
+
         value = Util.with_nested_fetch(self[keys.shift])
 
         if value.respond_to?(:get_in) && !keys.empty?
@@ -28,14 +29,13 @@ module Tripleloop
     end
 
     module Hash
-      module_function
-      def symbolize_keys(hash)
-        hash.reduce({}){ |accu, (k,v)|
+      def symbolize_keys
+        self.reduce({}){ |accu, (k,v)|
+          v = v.extend(Util::Hash).symbolize_keys if v.respond_to?(:keys)
           accu.merge(k.to_sym => v) 
         }
       end
     end
-
 
   module_function
     def with_nested_fetch(object)

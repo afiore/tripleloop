@@ -37,7 +37,7 @@ describe Tripleloop::DocumentProcessor do
   }}
 
   describe "#extracted_statements" do
-    it "converts all keys in document hash into symbols"
+    subject { Example::SampleProcessor.new(document) }
 
     context "when some of the registered extractors cannot be found" do
       it "raises an ExtractorNotFound error" do
@@ -48,8 +48,6 @@ describe Tripleloop::DocumentProcessor do
     end
 
     context "when all the registered extractors can be found" do
-      subject { Example::SampleProcessor.new(document) }
-
       it "returns a hash mapping extractor names to extracted statements" do
         subject.extracted_statements.should eq({
           :foo => [[:subject, "foo-value", :object]],

@@ -1,10 +1,9 @@
-require 'set'
-
 module Tripleloop
   class DocumentProcessor
+    attr_reader :document
 
     def initialize(document)
-      @document = Tripleloop::Util.with_nested_fetch(document)
+      @document = Util.with_nested_fetch(document)
     end
 
     def self.extractors(*args)
@@ -33,8 +32,6 @@ module Tripleloop
     end
 
   private
-    attr_reader :document
-
     def extractor_instances
       extractors = self.class.instance_variable_get(:@extractors)
 
