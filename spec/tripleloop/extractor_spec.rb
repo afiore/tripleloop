@@ -65,6 +65,23 @@ describe Tripleloop::Extractor do
         triples.should_not include(nil)
       end
     end
+
+    context "when map points to a nil document fragment" do
+      my_block = proc { raise "This should not be called" }
+
+      klass = Class.new(SampleExtractor) do
+        map(:path, :to, :nil, :key, &my_block)
+        map(:path, :to, :key) { |v| [:s, :p, v] }
+      end
+
+      it "ignores the mapped block" do
+        my_block.should_not_receive(:call)
+        extractor = klass.new(document)
+        extractor.extract.should eq([
+          [:s, :p, :test_key]
+        ])
+      end
+    end
   end
 
   describe ".define" do

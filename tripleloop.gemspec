@@ -1,18 +1,18 @@
 Gem::Specification.new do |s|
   s.specification_version = 2 if s.respond_to? :specification_version=
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.rubygems_version = '1.8.10'
+  s.rubygems_version = '1.8.17'
 
   s.name              = 'tripleloop'
-  s.version           = '0.0.2'
-  s.date              = '2013-02-28'
+  s.version           = '0.0.3'
+  s.date              = '2013-03-03'
   s.rubyforge_project = 'tripleloop'
 
   s.summary     = "Simple tool for extracting RDF triples from Ruby hashes"
   s.description = s.summary
 
   s.authors  = ["Andrea Fiore"]
-  s.email    = 'andrea.giulio.fiore@googlemail.com'
+  s.email    = 'andrea.giulio.fiore@gmail.com'
   s.homepage = 'http://github.com/afiore/tripleloop'
 
   s.require_paths = %w[lib]

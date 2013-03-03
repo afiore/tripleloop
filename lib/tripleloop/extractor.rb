@@ -24,23 +24,30 @@ class Tripleloop::Extractor
   end
 
   def extract
-    self.class.fragment_map.reduce([]) do |memo, (path, block)|
-      fragment = Tripleloop::Util.with_nested_fetch(context).get_in(*path)
-      returned = Array(instance_exec(fragment, &block)).compact
-
-      if nested_triples?(returned)
-        returned.each do |value|
-          ensure_triple_or_quad(value)
-        end
-        memo.concat(returned)
+    self.class.fragment_map.reduce([]) do |accu, (path, block)|
+      if fragment = Tripleloop::Util.with_nested_fetch(context).get_in(*path)
+        add_to_triples(accu, fragment, &block)
       else
-        ensure_triple_or_quad(returned)
-        memo << returned
+        accu
       end
     end
   end
 
 private
+  def add_to_triples(triples, fragment, &block)
+    returned = Array(instance_exec(fragment, &block)).compact
+
+    if nested_triples?(returned)
+      returned.each do |value|
+        ensure_triple_or_quad(value)
+      end
+      triples.concat(returned)
+    else
+      ensure_triple_or_quad(returned)
+      triples << returned
+    end
+  end
+
   def nested_triples?(value)
     value.all? { |object| object.is_a?(Array) }
   end
