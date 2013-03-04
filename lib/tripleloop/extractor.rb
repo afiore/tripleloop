@@ -35,7 +35,7 @@ class Tripleloop::Extractor
 
 private
   def add_to_triples(triples, fragment, &block)
-    returned = Array(instance_exec(fragment, &block)).compact
+    returned = Array(instance_exec(fragment, &block))
 
     if nested_triples?(returned)
       returned.each do |value|

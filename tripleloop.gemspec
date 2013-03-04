@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = '1.8.17'
 
   s.name              = 'tripleloop'
-  s.version           = '0.0.3'
-  s.date              = '2013-03-03'
+  s.version           = '0.0.4'
+  s.date              = '2013-03-04'
   s.rubyforge_project = 'tripleloop'
 
   s.summary     = "Simple tool for extracting RDF triples from Ruby hashes"
