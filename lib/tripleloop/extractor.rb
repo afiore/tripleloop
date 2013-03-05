@@ -54,11 +54,11 @@ private
 
   def ensure_triple_or_quad(value)
     message = "Cannot build a triple or a quad with #{value}."
-    raise BrokenMappingError, message unless is_triple_or_quad?(value)
+    raise BrokenMappingError, message if value.any?(&:nil?) || !is_triple_or_quad?(value)
   end
 
   def is_triple_or_quad?(value)
-    [3,4].include? value.length
+    [3,4].include?(value.length)
   end
 
   def bind_variables!
